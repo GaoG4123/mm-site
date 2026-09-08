@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Middle School Math Momentum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Caveat:wght@600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#faf6ec;
+    --ink:#332821;
+    --red:#c8102e;
+    --red-dark:#8f0a20;
+    --navy:#0f2a63;
+    --navy-dark:#081b42;
+    --gold:#e8b73b;
+    --line:#3a2e26;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    overflow-x:hidden;
+  }
+
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  h1,h2,h3, .title-font{
+    font-family:'Baloo 2', sans-serif;
+  }
+
+  .hand-note{
+    font-family:'Caveat', cursive;
+    font-size:1.4rem;
+    color:var(--red);
+  }
+
+  /* ---------- squiggle divider ---------- */
+  .squiggle{
+    width:100%;
+    height:28px;
+    display:block;
+  }
+  .squiggle path{
+    fill:none;
+    stroke:var(--line);
+    stroke-width:2;
+    stroke-linecap:round;
+    opacity:0.35;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:60px 20px 100px;
+    overflow:hidden;
+  }
+
+  .hero-eyebrow{
+    font-family:'Caveat', cursive;
+    font-size:1.6rem;
+    color:var(--navy);
+    margin-bottom:6px;
+  }
+
+  .jelly-title{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:clamp(2.4rem, 7vw, 5rem);
+    line-height:1.05;
+    letter-spacing:0.5px;
+    opacity:0;
+    transform:scale(0.6);
+  }
+  .jelly-title.pop{
+    animation:jellyPop 0.6s cubic-bezier(.32,1.6,.55,1) forwards;
+  }
+  @keyframes jellyPop{
+    0%{ opacity:0; transform:scale(0.4) translateY(10px); }
+    60%{ opacity:1; transform:scale(1.08) translateY(0); }
+    100%{ opacity:1; transform:scale(1) translateY(0); }
+  }
+
+  .jelly-word{
+    display:inline-block;
+    -webkit-text-stroke:2px var(--line);
+    text-shadow:
+      0 3px 0 rgba(0,0,0,0.15),
+      0 8px 14px rgba(0,0,0,0.18);
+    padding:0 2px;
+  }
+  .jelly-word.red{
+    background:linear-gradient(180deg,#ff5b6e 0%, var(--red) 45%, var(--red-dark) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .jelly-word.navy{
+    background:linear-gradient(180deg,#3f66c9 0%, var(--navy) 45%, var(--navy-dark) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+
+  .hero-sub{
+    margin-top:20px;
+    font-size:1.05rem;
+    color:#5a4c40;
+    max-width:520px;
+  }
+
+  /* candy pour area */
+  .pour-stage{
+    position:relative;
+    width:100%;
+    max-width:640px;
+    height:180px;
+    margin-top:10px;
+  }
+  .bag{
+    position:absolute;
+    left:calc(50% - 210px);
+    top:0;
+    font-size:2.2rem;
+    transform:rotate(-18deg);
+  }
+  .candy{
+    position:absolute;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    top:20px;
+    left:calc(50% - 150px);
+    opacity:0;
+    box-shadow: inset -3px -4px 0 rgba(0,0,0,0.18), inset 2px 3px 0 rgba(255,255,255,0.35);
+  }
+  .candy.red{ background:var(--red); }
+  .candy.navy{ background:var(--navy); }
+
+  .scatter-label{
+    position:absolute;
+    font-family:'Inter', sans-serif;
+    font-size:0.5rem;
+    font-weight:700;
+    color:#fff;
+    top:0; left:0; width:22px; height:22px;
+    display:flex; align-items:center; justify-content:center;
+    letter-spacing:0.2px;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{
+    padding:90px 0;
+    position:relative;
+  }
+
+  .kicker{
+    font-family:'Caveat', cursive;
+    font-size:1.3rem;
+    color:var(--red);
+    margin-bottom:2px;
+  }
+
+  .sec-title{
+    font-size:clamp(1.6rem, 4vw, 2.4rem);
+    font-weight:700;
+    margin-bottom:20px;
+    color:var(--navy-dark);
+  }
+
+  .body-text{
+    font-size:1.02rem;
+    line-height:1.7;
+    color:#4a3d34;
+    max-width:640px;
+  }
+
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+  }
+
+  /* partnership row */
+  .partners{
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+    margin-top:32px;
+  }
+  .partner-card{
+    flex:1 1 220px;
+    border:2px dashed var(--line);
+    border-radius:16px;
+    padding:22px 20px;
+    background:#fffdf8;
+  }
+  .partner-card h4{
+    font-family:'Baloo 2';
+    font-size:1.1rem;
+    color:var(--red-dark);
+    margin-bottom:6px;
+  }
+  .partner-card p{
+    font-size:0.92rem;
+    color:#5a4c40;
+    line-height:1.55;
+  }
+
+  /* pathway */
+  .pathway{
+    display:flex;
+    align-items:center;
+    gap:0;
+    margin-top:40px;
+    flex-wrap:wrap;
+  }
+  .path-stop{
+    flex:1 1 240px;
+    background:#fffdf8;
+    border:2px solid var(--line);
+    border-radius:20px;
+    padding:26px 22px;
+    position:relative;
+  }
+  .path-stop.ffo{ border-color:var(--red); }
+  .path-stop.par{ border-color:var(--navy); }
+  .path-stop .grade{
+    font-family:'Baloo 2';
+    font-weight:700;
+    font-size:0.85rem;
+    text-transform:uppercase;
+    letter-spacing:0.6px;
+  }
+  .path-stop.ffo .grade{ color:var(--red); }
+  .path-stop.par .grade{ color:var(--navy); }
+  .path-stop h4{ font-family:'Baloo 2'; font-size:1.3rem; margin:6px 0 8px; }
+  .path-stop p{ font-size:0.92rem; color:#5a4c40; line-height:1.55; }
+
+  .path-arrow{
+    flex:0 0 60px;
+    text-align:center;
+    font-size:1.6rem;
+    color:var(--gold);
+  }
+
+  /* six practices */
+  .practices-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:16px;
+    margin-top:36px;
+  }
+  .practice-card{
+    background:#fffdf8;
+    border-radius:18px;
+    padding:20px 20px 22px;
+    border-bottom:5px solid var(--gold);
+    position:relative;
+  }
+  .practice-num{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:30px; height:30px;
+    border-radius:50%;
+    background:var(--red);
+    color:#fff;
+    font-family:'Baloo 2';
+    font-weight:700;
+    font-size:0.95rem;
+    margin-bottom:10px;
+  }
+  .practice-card:nth-child(2) .practice-num{ background:var(--navy); }
+  .practice-card:nth-child(3) .practice-num{ background:var(--gold); color:#3a2e10;}
+  .practice-card:nth-child(4) .practice-num{ background:var(--red-dark); }
+  .practice-card:nth-child(5) .practice-num{ background:var(--navy-dark); }
+  .practice-card:nth-child(6) .practice-num{ background:#7a8f4f; }
+  .practice-card h4{ font-family:'Baloo 2'; font-size:1.05rem; margin-bottom:6px; }
+  .practice-card p{ font-size:0.88rem; color:#5a4c40; line-height:1.5; }
+
+  /* ecosystem rings */
+  .ecosystem{
+    margin-top:40px;
+    border:2px solid var(--line);
+    border-radius:26px;
+    overflow:hidden;
+  }
+  .eco-layer{
+    padding:20px 26px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+    border-bottom:1px dashed rgba(58,46,38,0.25);
+  }
+  .eco-layer:last-child{ border-bottom:none; }
+  .eco-layer .eco-name{ font-family:'Baloo 2'; font-weight:700; font-size:1rem; }
+  .eco-layer .eco-desc{ font-size:0.85rem; color:#5a4c40; }
+  .eco-layer.l1{ background:#fdeeee; }
+  .eco-layer.l2{ background:#fdf6e3; }
+  .eco-layer.l3{ background:#eaf1ff; }
+  .eco-layer.l4{ background:#eef4e6; }
+
+  /* timeline */
+  .timeline{
+    margin-top:36px;
+    display:flex;
+    flex-direction:column;
+    gap:0;
+  }
+  .tl-item{
+    display:flex;
+    gap:18px;
+    padding:14px 0;
+    border-top:1px dashed rgba(58,46,38,0.3);
+  }
+  .tl-item:last-child{ border-bottom:1px dashed rgba(58,46,38,0.3); }
+  .tl-date{
+    flex:0 0 150px;
+    font-family:'Baloo 2';
+    font-weight:700;
+    color:var(--red-dark);
+    font-size:0.95rem;
+  }
+  .tl-desc{ font-size:0.92rem; color:#5a4c40; }
+
+  footer{
+    text-align:center;
+    padding:50px 20px 70px;
+    font-size:0.85rem;
+    color:#8a7c6d;
+  }
+
+  @media (max-width:640px){
+    .path-arrow{ display:none; }
+    .pour-stage{ height:150px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-eyebrow">SMU Simmons School of Education &amp; Human Development</div>
+
+  <h1 class="jelly-title" id="title">
+    <span class="jelly-word red">MIDDLE</span> <span class="jelly-word navy">SCHOOL</span><br/>
+    <span class="jelly-word red">MATH</span> <span class="jelly-word navy">MOMENTUM</span>
+  </h1>
+
+  <p class="hero-sub">A coordinated, place-based strategy to strengthen middle school math outcomes for grades 4&ndash;8, built on evidence-based practice.</p>
+
+  <div class="pour-stage" id="pourStage">
+    <div class="bag">🧧</div>
+    <!-- candies injected by JS -->
+  </div>
+
+  <div class="hand-note">scroll to see how it works ↓</div>
+</section>
+
+<div class="wrap">
+<svg class="squiggle" viewBox="0 0 900 28" preserveAspectRatio="none"><path d="M0 14 Q 25 0, 50 14 T 100 14 T 150 14 T 200 14 T 250 14 T 300 14 T 350 14 T 400 14 T 450 14 T 500 14 T 550 14 T 600 14 T 650 14 T 700 14 T 750 14 T 800 14 T 850 14 T 900 14"/></svg>
+</div>
+
+<!-- ============ PARTNERSHIP ============ -->
+<section>
+  <div class="wrap reveal" id="sec-partners">
+    <div class="kicker">who's behind it</div>
+    <h2 class="sec-title">A three-way partnership</h2>
+    <p class="body-text">
+      M&amp;M represents a deliberate shift from isolated interventions to a coordinated, ecosystem-level
+      strategy. Starting June 2026, SMU Simmons brings together three centers to implement and evaluate
+      Year 1 of the initiative in LancasterISD, in partnership with the United Way of Metropolitan Dallas.
+    </p>
+
+    <div class="partners">
+      <div class="partner-card">
+        <h4>RME</h4>
+        <p>Research in Mathematics Education leads evidence-based math instruction across grades 4&ndash;8, guiding co-design of interventions like FFO and PAR.</p>
+      </div>
+      <div class="partner-card">
+        <h4>TBC</h4>
+        <p>The Budd Center serves as the main liaison to LancasterISD, leading family and community engagement efforts.</p>
+      </div>
+      <div class="partner-card">
+        <h4>CORE</h4>
+        <p>The Addy Foundation Center leads operations, data collection, and reporting across the full project.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+<svg class="squiggle" viewBox="0 0 900 28" preserveAspectRatio="none"><path d="M0 14 Q 25 28, 50 14 T 100 14 T 150 14 T 200 14 T 250 14 T 300 14 T 350 14 T 400 14 T 450 14 T 500 14 T 550 14 T 600 14 T 650 14 T 700 14 T 750 14 T 800 14 T 850 14 T 900 14"/></svg>
+</div>
+
+<!-- ============ PATHWAY ============ -->
+<section>
+  <div class="wrap reveal" id="sec-pathway">
+    <div class="kicker">the learning progression</div>
+    <h2 class="sec-title">From fractions to algebra readiness</h2>
+    <p class="body-text">Strong fraction understanding in the elementary grades provides the foundation for proportional reasoning and algebra readiness in middle school.</p>
+
+    <div class="pathway">
+      <div class="path-stop ffo">
+        <div class="grade">Grades 4&ndash;5</div>
+        <h4>Fraction Face-Off</h4>
+        <p>36 lessons in clusters, building fraction fluency through training, relay practice, timed sprints, and individual contests.</p>
+      </div>
+      <div class="path-arrow">→</div>
+      <div class="path-stop par">
+        <div class="grade">Grades 6&ndash;8</div>
+        <h4>Promoting Algebra Readiness</h4>
+        <p>Four strands, 96 lessons total, moving from whole number foundations through fraction operations to algebra readiness.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+<svg class="squiggle" viewBox="0 0 900 28" preserveAspectRatio="none"><path d="M0 14 Q 25 0, 50 14 T 100 14 T 150 14 T 200 14 T 250 14 T 300 14 T 350 14 T 400 14 T 450 14 T 500 14 T 550 14 T 600 14 T 650 14 T 700 14 T 750 14 T 800 14 T 850 14 T 900 14"/></svg>
+</div>
+
+<!-- ============ SIX PRACTICES ============ -->
+<section>
+  <div class="wrap reveal" id="sec-practices">
+    <div class="kicker">our shared language</div>
+    <h2 class="sec-title">Six evidence-based practices</h2>
+    <p class="body-text">Identified by the IES Practice Guide, these strong-evidence practices anchor every lesson, every coaching conversation, and every family resource across the project.</p>
+
+    <div class="practices-grid">
+      <div class="practice-card"><div class="practice-num">1</div><h4>Systematic Instruction</h4><p>Develop student understanding through a deliberate learning sequence.</p></div>
+      <div class="practice-card"><div class="practice-num">2</div><h4>Mathematical Language</h4><p>Teach precise language so students can explain and defend their thinking.</p></div>
+      <div class="practice-card"><div class="practice-num">3</div><h4>Representations</h4><p>Use a well-chosen set of concrete and semi-concrete models to build concepts.</p></div>
+      <div class="practice-card"><div class="practice-num">4</div><h4>Number Lines</h4><p>Build understanding of magnitude and prepare students for advanced math.</p></div>
+      <div class="practice-card"><div class="practice-num">5</div><h4>Word Problems</h4><p>Teach students to recognize problem structure rather than keyword-match.</p></div>
+      <div class="practice-card"><div class="practice-num">6</div><h4>Timed Activities</h4><p>Build fluency after understanding, freeing students to think about harder math.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+<svg class="squiggle" viewBox="0 0 900 28" preserveAspectRatio="none"><path d="M0 14 Q 25 28, 50 14 T 100 14 T 150 14 T 200 14 T 250 14 T 300 14 T 350 14 T 400 14 T 450 14 T 500 14 T 550 14 T 600 14 T 650 14 T 700 14 T 750 14 T 800 14 T 850 14 T 900 14"/></svg>
+</div>
+
+<!-- ============ ECOSYSTEM ============ -->
+<section>
+  <div class="wrap reveal" id="sec-eco">
+    <div class="kicker">the full picture</div>
+    <h2 class="sec-title">A layered support system</h2>
+    <p class="body-text">Active playful learning practices are foundational; the target focus on math outcomes requires aligning several levers together.</p>
+
+    <div class="ecosystem">
+      <div class="eco-layer l1">
+        <div class="eco-name">Family Engagement</div>
+        <div class="eco-desc">Parent math workshops, literacy sessions, family skill development</div>
+      </div>
+      <div class="eco-layer l2">
+        <div class="eco-name">Out-of-School-Time</div>
+        <div class="eco-desc">Afterschool expanded learning, summer enrichment programs</div>
+      </div>
+      <div class="eco-layer l3">
+        <div class="eco-name">Student Instruction &amp; Support</div>
+        <div class="eco-desc">Grades 4&ndash;5 foundational skills → grades 6&ndash;8 algebra readiness</div>
+      </div>
+      <div class="eco-layer l4">
+        <div class="eco-name">Professional Development</div>
+        <div class="eco-desc">Coaching for teachers and administration</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+<svg class="squiggle" viewBox="0 0 900 28" preserveAspectRatio="none"><path d="M0 14 Q 25 0, 50 14 T 100 14 T 150 14 T 200 14 T 250 14 T 300 14 T 350 14 T 400 14 T 450 14 T 500 14 T 550 14 T 600 14 T 650 14 T 700 14 T 750 14 T 800 14 T 850 14 T 900 14"/></svg>
+</div>
+
+<!-- ============ TIMELINE ============ -->
+<section>
+  <div class="wrap reveal" id="sec-timeline">
+    <div class="kicker">year one</div>
+    <h2 class="sec-title">Milestones, June 2026 &ndash; May 2027</h2>
+
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-date">Summer 2026</div><div class="tl-desc">Co-design and planning with LancasterISD; permissions submitted to SMU IRB.</div></div>
+      <div class="tl-item"><div class="tl-date">September 2026</div><div class="tl-desc">Progress Report; data collection launches.</div></div>
+      <div class="tl-item"><div class="tl-date">Fall 2026</div><div class="tl-desc">Initial interventions and professional development begin.</div></div>
+      <div class="tl-item"><div class="tl-date">December 2026</div><div class="tl-desc">Interim Report.</div></div>
+      <div class="tl-item"><div class="tl-date">Spring 2027</div><div class="tl-desc">Full implementation across PD, coaching, OST, and family engagement.</div></div>
+      <div class="tl-item"><div class="tl-date">May&ndash;June 2027</div><div class="tl-desc">Annual Report; M&amp;M Implementation and Evaluation Playbook delivered.</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Middle School Math Momentum &middot; SMU Simmons School of Education and Human Development
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+  // ---------- title pop ----------
+  document.getElementById('title').classList.add('pop');
+
+  // ---------- candy pour ----------
+  const stage = document.getElementById('pourStage');
+  const stageWidth = 640;
+  const candyCount = 26;
+  const colors = ['red','navy'];
+  const labels = [null, null, null, null, null, null, 'GG', null, null, null, 'SMU', null, null, null, 'M&M', null, null, null, null, null, null, null, null, null, null, null];
+
+  for(let i=0; i<candyCount; i++){
+    const c = document.createElement('div');
+    c.className = 'candy ' + colors[i % 2];
+    stage.appendChild(c);
+
+    const endX = (Math.random() * 480) - 60;   // spread across stage
+    const endY = 120 + Math.random() * 50;
+    const rot = (Math.random() * 360) - 180;
+    const delay = 300 + i * 90 + Math.random()*120;
+
+    if(labels[i]){
+      const lbl = document.createElement('div');
+      lbl.className = 'scatter-label';
+      lbl.textContent = labels[i];
+      c.appendChild(lbl);
+    }
+
+    setTimeout(() => {
+      c.style.transition = 'left 0.9s cubic-bezier(.25,.85,.4,1.3), top 0.9s cubic-bezier(.55,.06,.68,1.15), opacity 0.2s, transform 0.9s cubic-bezier(.34,1.56,.64,1)';
+      c.style.opacity = '1';
+      c.style.left = `calc(50% - 150px + ${endX}px)`;
+      c.style.top = endY + 'px';
+      c.style.transform = `rotate(${rot}deg)`;
+    }, delay);
+  }
+
+  // ---------- scroll reveal ----------
+  gsap.registerPlugin(ScrollTrigger);
+  document.querySelectorAll('.reveal').forEach(el => {
+    gsap.to(el, {
+      opacity:1,
+      y:0,
+      duration:0.9,
+      ease:'power2.out',
+      scrollTrigger:{
+        trigger: el,
+        start: 'top 78%'
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
