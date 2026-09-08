@@ -77,89 +77,73 @@
     margin-bottom:6px;
   }
 
-  .jelly-title{
-    font-family:'Baloo 2', sans-serif;
-    font-weight:800;
-    font-size:clamp(2.4rem, 7vw, 5rem);
-    line-height:1.05;
-    letter-spacing:0.5px;
-    opacity:0;
-    transform:scale(0.6);
-  }
-  .jelly-title.pop{
-    animation:jellyPop 0.6s cubic-bezier(.32,1.6,.55,1) forwards;
-  }
-  @keyframes jellyPop{
-    0%{ opacity:0; transform:scale(0.4) translateY(10px); }
-    60%{ opacity:1; transform:scale(1.08) translateY(0); }
-    100%{ opacity:1; transform:scale(1) translateY(0); }
-  }
-
-  .jelly-word{
-    display:inline-block;
-    -webkit-text-stroke:2px var(--line);
-    text-shadow:
-      0 3px 0 rgba(0,0,0,0.15),
-      0 8px 14px rgba(0,0,0,0.18);
-    padding:0 2px;
-  }
-  .jelly-word.red{
-    background:linear-gradient(180deg,#ff5b6e 0%, var(--red) 45%, var(--red-dark) 100%);
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-  }
-  .jelly-word.navy{
-    background:linear-gradient(180deg,#3f66c9 0%, var(--navy) 45%, var(--navy-dark) 100%);
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-  }
-
   .hero-sub{
-    margin-top:20px;
+    margin-top:22px;
     font-size:1.05rem;
     color:#5a4c40;
     max-width:520px;
   }
 
-  /* candy pour area */
-  .pour-stage{
+  /* ---------- hero artwork + click-to-pour reveal ---------- */
+  .hero-art{
     position:relative;
     width:100%;
     max-width:640px;
-    height:180px;
-    margin-top:10px;
+    margin-top:8px;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
   }
-  .bag{
-    position:absolute;
-    left:calc(50% - 210px);
-    top:0;
-    font-size:2.2rem;
-    transform:rotate(-18deg);
+  .hero-art img{
+    display:block;
+    width:100%;
+    height:auto;
+    /* hides the title + scattered candies at first, shows only hand/bag/building */
+    clip-path: inset(0 0 58% 0);
+    transition: clip-path 1.4s cubic-bezier(.22,.9,.28,1.05);
   }
-  .candy{
-    position:absolute;
-    width:22px;
-    height:22px;
-    border-radius:50%;
-    top:20px;
-    left:calc(50% - 150px);
-    opacity:0;
-    box-shadow: inset -3px -4px 0 rgba(0,0,0,0.18), inset 2px 3px 0 rgba(255,255,255,0.35);
+  .hero-art.revealed img{
+    clip-path: inset(0 0 0% 0);
   }
-  .candy.red{ background:var(--red); }
-  .candy.navy{ background:var(--navy); }
 
-  .scatter-label{
+  .pour-trigger{
     position:absolute;
-    font-family:'Inter', sans-serif;
-    font-size:0.5rem;
-    font-weight:700;
-    color:#fff;
-    top:0; left:0; width:22px; height:22px;
-    display:flex; align-items:center; justify-content:center;
-    letter-spacing:0.2px;
+    left:6%;
+    top:26%;
+    width:120px;
+    height:120px;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .pour-trigger .ring{
+    position:absolute;
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    border:2px solid var(--red);
+    opacity:0.55;
+    animation:ringPulse 1.8s ease-out infinite;
+  }
+  .pour-trigger .tap-label{
+    position:absolute;
+    top:100%;
+    margin-top:6px;
+    font-family:'Caveat', cursive;
+    font-size:1.2rem;
+    color:var(--red);
+    white-space:nowrap;
+  }
+  @keyframes ringPulse{
+    0%{ transform:scale(0.7); opacity:0.6; }
+    100%{ transform:scale(1.5); opacity:0; }
+  }
+  .hero-art.revealed .pour-trigger{
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.4s ease;
   }
 
   /* ---------- SECTIONS ---------- */
@@ -358,19 +342,15 @@
 <section class="hero">
   <div class="hero-eyebrow">SMU Simmons School of Education &amp; Human Development</div>
 
-  <h1 class="jelly-title" id="title">
-    <span class="jelly-word red">MIDDLE</span> <span class="jelly-word navy">SCHOOL</span><br/>
-    <span class="jelly-word red">MATH</span> <span class="jelly-word navy">MOMENTUM</span>
-  </h1>
-
-  <p class="hero-sub">A coordinated, place-based strategy to strengthen middle school math outcomes for grades 4&ndash;8, built on evidence-based practice.</p>
-
-  <div class="pour-stage" id="pourStage">
-    <div class="bag">🧧</div>
-    <!-- candies injected by JS -->
+  <div class="hero-art" id="heroArt">
+    <img src="hero.jpg" alt="Middle School Math Momentum" />
+    <button class="pour-trigger" id="pourTrigger" aria-label="Pour it out">
+      <span class="ring"></span>
+      <span class="tap-label">tap the bag</span>
+    </button>
   </div>
 
-  <div class="hand-note">scroll to see how it works ↓</div>
+  <p class="hero-sub">A coordinated, place-based strategy to strengthen middle school math outcomes for grades 4&ndash;8, built on evidence-based practice.</p>
 </section>
 
 <div class="wrap">
@@ -514,41 +494,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
-  // ---------- title pop ----------
-  document.getElementById('title').classList.add('pop');
+  // ---------- click-to-pour hero reveal ----------
+  const heroArt = document.getElementById('heroArt');
+  const pourTrigger = document.getElementById('pourTrigger');
 
-  // ---------- candy pour ----------
-  const stage = document.getElementById('pourStage');
-  const stageWidth = 640;
-  const candyCount = 26;
-  const colors = ['red','navy'];
-  const labels = [null, null, null, null, null, null, 'GG', null, null, null, 'SMU', null, null, null, 'M&M', null, null, null, null, null, null, null, null, null, null, null];
-
-  for(let i=0; i<candyCount; i++){
-    const c = document.createElement('div');
-    c.className = 'candy ' + colors[i % 2];
-    stage.appendChild(c);
-
-    const endX = (Math.random() * 480) - 60;   // spread across stage
-    const endY = 120 + Math.random() * 50;
-    const rot = (Math.random() * 360) - 180;
-    const delay = 300 + i * 90 + Math.random()*120;
-
-    if(labels[i]){
-      const lbl = document.createElement('div');
-      lbl.className = 'scatter-label';
-      lbl.textContent = labels[i];
-      c.appendChild(lbl);
-    }
-
-    setTimeout(() => {
-      c.style.transition = 'left 0.9s cubic-bezier(.25,.85,.4,1.3), top 0.9s cubic-bezier(.55,.06,.68,1.15), opacity 0.2s, transform 0.9s cubic-bezier(.34,1.56,.64,1)';
-      c.style.opacity = '1';
-      c.style.left = `calc(50% - 150px + ${endX}px)`;
-      c.style.top = endY + 'px';
-      c.style.transform = `rotate(${rot}deg)`;
-    }, delay);
+  function pourReveal(){
+    heroArt.classList.add('revealed');
+    pourTrigger.disabled = true;
   }
+  pourTrigger.addEventListener('click', pourReveal);
+  heroArt.addEventListener('click', pourReveal);
 
   // ---------- scroll reveal ----------
   gsap.registerPlugin(ScrollTrigger);
